@@ -96,6 +96,15 @@ void GUI::Loop()
 	ImGui_ImplWin32_Init(this->hWindow);
 	ImGui_ImplDX9_Init(D3DDevice);
 
+	ImGuiStyle& Style = ImGui::GetStyle();
+	Style.ChildRounding = 0.f;
+	Style.FrameRounding = 0.f;
+	Style.GrabRounding = 0.f;
+	Style.PopupRounding = 0.f;
+	Style.ScrollbarRounding = 0.f;
+	Style.TabRounding = 0.f;
+	Style.WindowRounding = 0.f;
+
 	MSG Msg = {};
 	while (true)
 	{
@@ -155,10 +164,33 @@ void GUI::Render()
 	ImGui::SetNextWindowPos(this->WindowSetup.Position, ImGuiCond_Once);
 	ImGui::SetNextWindowSize(this->WindowSetup.Size, ImGuiCond_Once);
 
-	if (ImGui::Begin("GH", nullptr, ImGuiWindowFlags_NoCollapse))
+	// Big blob incoming :hahaball:
+	if (ImGui::Begin("NARIS v" VERSION, nullptr, ImGuiWindowFlags_NoCollapse))
 	{
-		if (ImGui::Button("Yo"))
-			std::cout << "prop" << std::endl;
+		if (ImGui::BeginTabBar("MainTabs"))
+		{
+			if (ImGui::BeginTabItem("Clients"))
+			{
+				ImGui::EndTabItem();
+			}
+
+			if (ImGui::BeginTabItem("Builder"))
+			{
+				ImGui::EndTabItem();
+			}
+
+			if (ImGui::BeginTabItem("Network"))
+			{
+				ImGui::EndTabItem();
+			}
+
+			if (ImGui::BeginTabItem("Settings"))
+			{
+				ImGui::EndTabItem();
+			}
+
+			ImGui::EndTabBar();
+		}
 
 		ImGui::End();
 	}
