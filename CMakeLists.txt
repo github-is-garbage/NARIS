@@ -47,7 +47,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 	WIN32_LEAN_AND_MEAN
 )
 
-target_link_libraries(${PROJECT_NAME} d3d9 d3dx9)
+target_link_libraries(${PROJECT_NAME} d3d9 d3dx9 dwmapi)
 
 # Yay
 install(

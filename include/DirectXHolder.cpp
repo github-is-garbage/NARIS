@@ -1,5 +1,8 @@
 #include <DirectXHolder.h>
 
+#include <ImGui/imgui.h>
+#include <ImGui/backends/imgui_impl_dx9.h>
+
 DirectXHolder::DirectXHolder()
 {
 	this->D3D9 = Direct3DCreate9(D3D_SDK_VERSION);
@@ -25,4 +28,15 @@ void DirectXHolder::Destroy()
 {
 	this->D3DDevice->Release();
 	this->D3D9->Release();
+}
+
+void DirectXHolder::Reset()
+{
+	ImGui_ImplDX9_InvalidateDeviceObjects();
+
+	HRESULT Result = this->D3DDevice->Reset(&this->PresentParams);
+
+	// TODO: D3DERR_INVALIDCALL
+
+	ImGui_ImplDX9_CreateDeviceObjects();
 }

@@ -18,6 +18,8 @@ LRESULT CALLBACK WndProc(HWND hWindow, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 int main()
 {
+	// FreeConsole(); //  TODO:
+
 	GUI* GUIManager = new GUI();
 
 	if (!GUIManager->Setup())
@@ -30,9 +32,8 @@ int main()
 		GUIManager->Destroy();
 		return -2;
 	}
-
-	UpdateWindow(GUIManager->hWindow);
-	ShowWindow(GUIManager->hWindow, SW_SHOWDEFAULT);
+	else
+		GUIManager->D3DHolder = D3DHolder;
 
 	GUIManager->Loop();
 

@@ -9,6 +9,7 @@ public:
 
 	bool Setup(HWND hWindow);
 	void Destroy();
+	void Reset();
 
 	LPDIRECT3D9 D3D9;
 	LPDIRECT3DDEVICE9 D3DDevice;
