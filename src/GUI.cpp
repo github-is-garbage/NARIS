@@ -142,8 +142,6 @@ void GUI::Loop()
 
 void GUI::Render()
 {
-	SetWindowPos(this->hWindow, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-
 	ImGui::SetNextWindowPos(this->WindowSetup.Position, ImGuiCond_Once);
 	ImGui::SetNextWindowSize(this->WindowSetup.Size, ImGuiCond_Always);
 
