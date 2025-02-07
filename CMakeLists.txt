@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.30)
 
-project(NARIS VERSION 1.0)
+project(NARIS VERSION 1.0.0)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -45,6 +45,7 @@ set_target_properties(
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
 	WIN32_LEAN_AND_MEAN
+	VERSION="${CMAKE_PROJECT_VERSION}"
 )
 
 target_link_libraries(${PROJECT_NAME} d3d9 d3dx9 dwmapi)
