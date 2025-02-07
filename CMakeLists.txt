@@ -1,14 +1,21 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.30)
 
 project(NARIS VERSION 1.0)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_GENERATOR_PLATFORM x64)
+set(CMAKE_CXX_FLAGS_RELEASE "-Os -s")
+
+# Files
+set(DIRECTX_SDK_PATH "C:\\Program Files (x86)\\Microsoft DirectX SDK (June 2010)")
 
 file(GLOB_RECURSE SOURCES
 	"src/**.cpp"
 	"src/**/*.cpp"
+
+	"include/**.cpp"
+	"include/**/*.cpp"
 )
 
 file(GLOB_RECURSE HEADERS
@@ -16,6 +23,12 @@ file(GLOB_RECURSE HEADERS
 	"src/**.hpp"
 )
 
+include_directories("include")
+
+include_directories("${DIRECTX_SDK_PATH}/Include")
+link_directories("${DIRECTX_SDK_PATH}/Lib/x64")
+
+# Stuff
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 set_target_properties(
@@ -25,23 +38,14 @@ set_target_properties(
 	PREFIX ""
 )
 
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-	target_compile_definitions(${PROJECT_NAME} PRIVATE
-		_DEBUG
-	)
-elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
-	set(CMAKE_CXX_FLAGS_RELEASE "-Os -s")
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+	WIN32_LEAN_AND_MEAN
+)
 
-	target_compile_definitions(${PROJECT_NAME} PRIVATE
-		WIN32_LEAN_AND_MEAN
-	)
-endif()
+target_link_libraries(${PROJECT_NAME} d3d9 d3dx9)
 
+# Yay
 install(
 	TARGETS ${PROJECT_NAME}
 	RUNTIME DESTINATION bin
 )
-
-message(STATUS "Project Name: ${PROJECT_NAME}")
-message(STATUS "Project Version: ${PROJECT_VERSION}")
-message(STATUS "C++ Standard: ${CMAKE_CXX_STANDARD}")
