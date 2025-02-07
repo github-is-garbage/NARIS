@@ -1,5 +1,7 @@
 #include <Windows.h>
-#include <iostream>
+
+#include <DirectXHolder.h>
+#include <GUI.h>
 
 LRESULT CALLBACK WndProc(HWND hWindow, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -16,45 +18,26 @@ LRESULT CALLBACK WndProc(HWND hWindow, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 int main()
 {
-	HINSTANCE hInstance = GetModuleHandle(NULL);
+	GUI* GUIManager = new GUI();
 
-	const char CLASS_NAME[] = "NARIS_SERVER";
-
-	WNDCLASSEX WindowClass = {};
-	WindowClass.cbSize = sizeof(WNDCLASSEX);
-	WindowClass.lpfnWndProc = WndProc;
-	WindowClass.hInstance = hInstance;
-	WindowClass.lpszClassName = CLASS_NAME;
-
-	if (!RegisterClassEx(&WindowClass))
+	if (!GUIManager->Setup())
 		return -1;
 
-	HWND hWindow = CreateWindowEx(
-		0,
-		CLASS_NAME,
-		"NARIS",
-		WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-		NULL,
-		NULL,
-		hInstance,
-		NULL
-	);
+	DirectXHolder* D3DHolder = new DirectXHolder();
 
-	if (!hWindow)
+	if (!D3DHolder->Setup(GUIManager->hWindow))
 	{
-		UnregisterClass(CLASS_NAME, hInstance);
+		GUIManager->Destroy();
 		return -2;
 	}
 
-	ShowWindow(hWindow, SW_SHOWDEFAULT);
+	UpdateWindow(GUIManager->hWindow);
+	ShowWindow(GUIManager->hWindow, SW_SHOWDEFAULT);
 
-	MSG Msg = {};
-	while (GetMessage(&Msg, NULL, 0, 0))
-	{
-		TranslateMessage(&Msg);
-		DispatchMessage(&Msg);
-	}
+	GUIManager->Loop();
+
+	D3DHolder->Destroy();
+	GUIManager->Destroy();
 
 	return 0;
 }

@@ -21,6 +21,11 @@ file(GLOB_RECURSE SOURCES
 file(GLOB_RECURSE HEADERS
 	"src/**.h"
 	"src/**.hpp"
+
+	"include/**.h"
+	"include/**.hpp"
+	"include/**/*.h"
+	"include/**/*.hpp"
 )
 
 include_directories("include")
