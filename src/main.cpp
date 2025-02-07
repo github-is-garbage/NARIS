@@ -1,7 +1,7 @@
 #include <Windows.h>
 
-#include <DirectXHolder.h>
-#include <GUI.h>
+#include "DirectXHolder.h"
+#include "GUI.h"
 
 LRESULT CALLBACK WndProc(HWND hWindow, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
