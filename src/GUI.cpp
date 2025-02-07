@@ -153,9 +153,9 @@ void GUI::Loop()
 void GUI::Render()
 {
 	ImGui::SetNextWindowPos(this->WindowSetup.Position, ImGuiCond_Once);
-	ImGui::SetNextWindowSize(this->WindowSetup.Size, ImGuiCond_Always);
+	ImGui::SetNextWindowSize(this->WindowSetup.Size, ImGuiCond_Once);
 
-	if (ImGui::Begin("GH", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse))
+	if (ImGui::Begin("GH", nullptr, ImGuiWindowFlags_NoCollapse))
 	{
 		if (ImGui::Button("Yo"))
 			std::cout << "prop" << std::endl;
