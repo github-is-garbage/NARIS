@@ -67,9 +67,18 @@ bool GUI::Setup()
 
 bool GUI::Destroy()
 {
-	ImGui_ImplDX9_Shutdown();
-	ImGui_ImplWin32_Shutdown();
-	ImGui::DestroyContext();
+	if (ImGui::GetCurrentContext())
+	{
+		ImGuiIO& IO = ImGui::GetIO();
+
+		if (IO.BackendPlatformUserData)
+		{
+			ImGui_ImplDX9_Shutdown();
+			ImGui_ImplWin32_Shutdown();
+		}
+
+		ImGui::DestroyContext();
+	}
 
 	if (this->hWindow)
 		DestroyWindow(this->hWindow);
