@@ -11,7 +11,7 @@ DirectXHolder::DirectXHolder()
 
 	this->PresentParams.Windowed = true;
 	this->PresentParams.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	this->PresentParams.BackBufferFormat = D3DFMT_UNKNOWN;
+	this->PresentParams.BackBufferFormat = D3DFMT_A8R8G8B8;
 	this->PresentParams.EnableAutoDepthStencil = TRUE;
 	this->PresentParams.AutoDepthStencilFormat = D3DFMT_D16;
 	this->PresentParams.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
