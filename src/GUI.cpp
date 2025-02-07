@@ -97,14 +97,15 @@ void GUI::Loop()
 	ImGui_ImplDX9_Init(D3DDevice);
 
 	MSG Msg = {};
-	while (GetMessage(&Msg, NULL, 0, 0))
+	while (true)
 	{
 		if (PeekMessage(&Msg, NULL, 0, 0, PM_REMOVE))
 		{
+			if (Msg.message == WM_QUIT || Msg.message == WM_DESTROY)
+				break;
+
 			TranslateMessage(&Msg);
 			DispatchMessage(&Msg);
-
-			continue;
 		}
 
 		ImGui_ImplWin32_NewFrame();
@@ -154,7 +155,7 @@ void GUI::Render()
 	ImGui::SetNextWindowPos(this->WindowSetup.Position, ImGuiCond_Once);
 	ImGui::SetNextWindowSize(this->WindowSetup.Size, ImGuiCond_Always);
 
-	if (ImGui::Begin("GH", nullptr, ImGuiWindowFlags_NoResize))
+	if (ImGui::Begin("GH", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse))
 	{
 		if (ImGui::Button("Yo"))
 			std::cout << "prop" << std::endl;
