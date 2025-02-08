@@ -182,7 +182,7 @@ void GUI::Render()
 		{
 			if (ImGui::BeginTabItem("Clients"))
 			{
-				if (ImGui::BeginTable("ConnectedClients", 8, ImGuiTableFlags_Borders))
+				if (ImGui::BeginTable("ConnectedClients", 8, ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable))
 				{
 					ImGui::TableSetupColumn("Identifier");
 					ImGui::TableSetupColumn("IP Address");
