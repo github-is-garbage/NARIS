@@ -174,6 +174,38 @@ void GUI::Render()
 		{
 			if (ImGui::BeginTabItem("Clients"))
 			{
+				if (ImGui::BeginTable("ConnectedClients", 8, ImGuiTableFlags_Borders))
+				{
+					ImGui::TableSetupColumn("Identifier");
+					ImGui::TableSetupColumn("IP Address");
+					ImGui::TableSetupColumn("Port");
+					ImGui::TableSetupColumn("Ping");
+					ImGui::TableSetupColumn("Up Time");
+					ImGui::TableSetupColumn("Operating System");
+					ImGui::TableSetupColumn("Install Date");
+					ImGui::TableSetupColumn("Version");
+
+					ImGui::TableHeadersRow();
+
+					for (int i = 0; i < 10; ++i)
+					{
+						ImGui::TableNextRow();
+
+						for (int ii = 0; ii < 8; ++ii)
+						{
+							ImGui::TableNextColumn();
+							ImGui::Text("%d %d", i, ii);
+						}
+
+						if (ImGui::TableGetHoveredRow() - 1 == i)
+							ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg1, ImGui::GetColorU32(ImGuiCol_HeaderHovered));
+						else if (i % 2)
+							ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg1, IM_COL32(100, 100, 100, 50));
+					}
+
+					ImGui::EndTable();
+				}
+
 				ImGui::EndTabItem();
 			}
 
