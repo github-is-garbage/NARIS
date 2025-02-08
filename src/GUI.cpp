@@ -96,14 +96,7 @@ void GUI::Loop()
 	ImGui_ImplWin32_Init(this->hWindow);
 	ImGui_ImplDX9_Init(D3DDevice);
 
-	ImGuiStyle& Style = ImGui::GetStyle();
-	Style.ChildRounding = 0.f;
-	Style.FrameRounding = 0.f;
-	Style.GrabRounding = 0.f;
-	Style.PopupRounding = 0.f;
-	Style.ScrollbarRounding = 0.f;
-	Style.TabRounding = 0.f;
-	Style.WindowRounding = 0.f;
+	this->Style();
 
 	MSG Msg = {};
 	while (true)
@@ -162,6 +155,21 @@ void GUI::Loop()
 	}
 }
 
+void GUI::Style()
+{
+	ImGuiStyle& Style = ImGui::GetStyle();
+
+	Style.Colors[ImGuiCol_TableRowBgAlt] = ImColor(100, 100, 100, 50);
+
+	Style.ChildRounding = 0.f;
+	Style.FrameRounding = 0.f;
+	Style.GrabRounding = 0.f;
+	Style.PopupRounding = 0.f;
+	Style.ScrollbarRounding = 0.f;
+	Style.TabRounding = 0.f;
+	Style.WindowRounding = 0.f;
+}
+
 void GUI::Render()
 {
 	ImGui::SetNextWindowPos(this->WindowSetup.Position, ImGuiCond_Once);
@@ -200,7 +208,7 @@ void GUI::Render()
 						if (ImGui::TableGetHoveredRow() - 1 == i)
 							ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg1, ImGui::GetColorU32(ImGuiCol_HeaderHovered));
 						else if (i % 2)
-							ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg1, IM_COL32(100, 100, 100, 50));
+							ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg1, ImGui::GetColorU32(ImGuiCol_TableRowBgAlt));
 					}
 
 					ImGui::EndTable();

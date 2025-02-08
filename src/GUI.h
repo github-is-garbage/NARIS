@@ -31,6 +31,7 @@ public:
 	bool Setup();
 	bool Destroy();
 	void Loop();
+	void Style();
 	void Render();
 
 	static LRESULT CALLBACK WndProc(HWND hWindow, UINT uMsg, WPARAM wParam, LPARAM lParam);
