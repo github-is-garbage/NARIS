@@ -36,7 +36,7 @@ void DirectXHolder::Reset()
 
 	HRESULT Result = this->D3DDevice->Reset(&this->PresentParams);
 
-	// TODO: D3DERR_INVALIDCALL
+	assert(SUCCEEDED(Result));
 
 	ImGui_ImplDX9_CreateDeviceObjects();
 }
