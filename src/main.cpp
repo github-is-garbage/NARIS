@@ -3,19 +3,6 @@
 #include "DirectXHolder.h"
 #include "GUI.h"
 
-LRESULT CALLBACK WndProc(HWND hWindow, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-	switch (uMsg)
-	{
-		case WM_QUIT:
-		case WM_DESTROY:
-			PostQuitMessage(0);
-			return 0;
-	}
-
-	return DefWindowProc(hWindow, uMsg, wParam, lParam);
-}
-
 int main()
 {
 	// FreeConsole(); //  TODO:
