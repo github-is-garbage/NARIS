@@ -108,6 +108,9 @@ void GUI::Loop()
 	MSG Msg = {};
 	while (true)
 	{
+		if (!this->Open)
+			break;
+
 		if (PeekMessage(&Msg, NULL, 0, 0, PM_REMOVE))
 		{
 			if (Msg.message == WM_QUIT || Msg.message == WM_DESTROY)
@@ -165,7 +168,7 @@ void GUI::Render()
 	ImGui::SetNextWindowSize(this->WindowSetup.Size, ImGuiCond_Once);
 
 	// Big blob incoming :hahaball:
-	if (ImGui::Begin("NARIS v" VERSION, nullptr, ImGuiWindowFlags_NoCollapse))
+	if (ImGui::Begin("NARIS v" VERSION, &this->Open, ImGuiWindowFlags_NoCollapse))
 	{
 		if (ImGui::BeginTabBar("MainTabs"))
 		{

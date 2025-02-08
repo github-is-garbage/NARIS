@@ -12,6 +12,9 @@ struct WindowSetup_t
 
 class GUI
 {
+private:
+	bool Open = true;
+
 public:
 	DirectXHolder* D3DHolder;
 
