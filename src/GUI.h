@@ -1,8 +1,13 @@
 #pragma once
 
-#include <Windows.h>
 #include "DirectXHolder.h"
+
+#include <functional>
 #include <ImGui/imgui.h>
+#include <map>
+#include <string>
+#include <vector>
+#include <Windows.h>
 
 struct WindowSetup_t
 {
@@ -13,12 +18,14 @@ struct WindowSetup_t
 class GUI
 {
 private:
-	bool Open = true;
+	bool bOpen = true;
+
+	std::map<std::string, std::vector<std::function<void()>>> mapHooks;
 
 public:
 	DirectXHolder* D3DHolder;
 
-	ATOM Registered;
+	ATOM bRegistered;
 	HINSTANCE hInstance;
 	HWND hWindow;
 
@@ -33,6 +40,10 @@ public:
 	void Loop();
 	void Style();
 	void Render();
+	void AddHook(std::string pszEvent, std::function<void()> fnCallback);
 
 	static LRESULT CALLBACK WndProc(HWND hWindow, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+private:
+	void RunHook(std::string pszEvent);
 };

@@ -14,6 +14,7 @@ const char CLASS_NAME[] = "NARIS_SERVER";
 GUI::GUI()
 {
 	this->hInstance = GetModuleHandle(NULL);
+	this->mapHooks = std::map<std::string, std::vector<std::function<void()>>>();
 }
 
 bool GUI::Setup()
@@ -24,9 +25,9 @@ bool GUI::Setup()
 	WindowClass.hInstance = this->hInstance;
 	WindowClass.lpszClassName = CLASS_NAME;
 
-	this->Registered = RegisterClassEx(&WindowClass);
+	this->bRegistered = RegisterClassEx(&WindowClass);
 
-	if (!this->Registered)
+	if (!this->bRegistered)
 		return this->Destroy();
 
 	this->hWindow = CreateWindowEx(
@@ -83,7 +84,7 @@ bool GUI::Destroy()
 	if (this->hWindow)
 		DestroyWindow(this->hWindow);
 
-	if (this->Registered)
+	if (this->bRegistered)
 		UnregisterClass(CLASS_NAME, this->hInstance);
 
 	return false;
@@ -101,7 +102,7 @@ void GUI::Loop()
 	MSG Msg = {};
 	while (true)
 	{
-		if (!this->Open)
+		if (!this->bOpen)
 			break;
 
 		if (PeekMessage(&Msg, NULL, 0, 0, PM_REMOVE))
@@ -176,7 +177,7 @@ void GUI::Render()
 	ImGui::SetNextWindowSize(this->WindowSetup.Size, ImGuiCond_Once);
 
 	// Big blob incoming :hahaball:
-	if (ImGui::Begin("NARIS v" VERSION, &this->Open, ImGuiWindowFlags_NoCollapse))
+	if (ImGui::Begin("NARIS v" VERSION, &this->bOpen, ImGuiWindowFlags_NoCollapse))
 	{
 		if (ImGui::BeginTabBar("MainTabs"))
 		{
@@ -195,21 +196,7 @@ void GUI::Render()
 
 					ImGui::TableHeadersRow();
 
-					for (int i = 0; i < 10; ++i)
-					{
-						ImGui::TableNextRow();
-
-						for (int ii = 0; ii < 8; ++ii)
-						{
-							ImGui::TableNextColumn();
-							ImGui::Text("%d %d", i, ii);
-						}
-
-						if (ImGui::TableGetHoveredRow() - 1 == i)
-							ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg1, ImGui::GetColorU32(ImGuiCol_HeaderHovered));
-						else if (i % 2)
-							ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg1, ImGui::GetColorU32(ImGuiCol_TableRowBgAlt));
-					}
+					this->RunHook("GUI_ClientList");
 
 					ImGui::EndTable();
 				}
@@ -237,6 +224,25 @@ void GUI::Render()
 
 		ImGui::End();
 	}
+}
+
+void GUI::AddHook(std::string pszEvent, std::function<void()> fnCallback)
+{
+	if (!this->mapHooks.contains(pszEvent))
+		this->mapHooks.emplace(pszEvent, std::vector<std::function<void()>>());
+
+	this->mapHooks.find(pszEvent)->second.emplace_back(fnCallback);
+}
+
+void GUI::RunHook(std::string pszEvent)
+{
+	if (!this->mapHooks.contains(pszEvent))
+		return;
+
+	std::vector<std::function<void()>>& Hooks = this->mapHooks.find(pszEvent)->second;
+
+	for (std::function<void()> Hook : Hooks)
+		Hook();
 }
 
 LRESULT CALLBACK GUI::WndProc(HWND hWindow, UINT uMsg, WPARAM wParam, LPARAM lParam)
