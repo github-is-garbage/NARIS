@@ -16,12 +16,10 @@ jobs:
               uses: lukka/get-cmake@latest
 
             - name: Install GCC
-              run: |
-                  choco install mingw
+              run: choco install mingw
 
             - name: Install GitHub CLI
-              run: |
-                  choco install gh
+              run: choco install gh
 
             - name: Extract Version
               id: extract_version
