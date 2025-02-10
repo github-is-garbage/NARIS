@@ -89,7 +89,7 @@ bool GUI::Destroy()
 
 void GUI::Loop()
 {
-	LPDIRECT3DDEVICE9 D3DDevice = this->D3DHolder->D3DDevice;
+	LPDIRECT3DDEVICE9& D3DDevice = this->D3DHolder->D3DDevice;
 
 	ImGui_ImplWin32_Init(this->hWindow);
 	ImGui_ImplDX9_Init(D3DDevice);
@@ -97,6 +97,8 @@ void GUI::Loop()
 	this->Style();
 
 	MSG Msg = {};
+	HRESULT Result;
+
 	while (true)
 	{
 		if (!this->bOpen)
@@ -146,7 +148,7 @@ void GUI::Loop()
 			D3DDevice->EndScene();
 		}
 
-		HRESULT Result = D3DDevice->Present(NULL, NULL, NULL, NULL);
+		Result = D3DDevice->Present(NULL, NULL, NULL, NULL);
 
 		if (Result == D3DERR_DEVICELOST && D3DDevice->TestCooperativeLevel() == D3DERR_DEVICENOTRESET)
 			this->D3DHolder->Reset();
@@ -238,7 +240,7 @@ void GUI::RunHook(std::string strEvent)
 
 	std::vector<std::function<void()>>& Hooks = this->mapHooks.find(strEvent)->second;
 
-	for (std::function<void()> Hook : Hooks)
+	for (std::function<void()>& Hook : Hooks)
 		Hook();
 }
 
