@@ -223,20 +223,20 @@ void GUI::Render()
 	}
 }
 
-void GUI::AddHook(std::string pszEvent, std::function<void()> fnCallback)
+void GUI::AddHook(std::string strEvent, std::function<void()> fnCallback)
 {
-	if (!this->mapHooks.contains(pszEvent))
-		this->mapHooks.emplace(pszEvent, std::vector<std::function<void()>>());
+	if (!this->mapHooks.contains(strEvent))
+		this->mapHooks.emplace(strEvent, std::vector<std::function<void()>>());
 
-	this->mapHooks.find(pszEvent)->second.emplace_back(fnCallback);
+	this->mapHooks.find(strEvent)->second.emplace_back(fnCallback);
 }
 
-void GUI::RunHook(std::string pszEvent)
+void GUI::RunHook(std::string strEvent)
 {
-	if (!this->mapHooks.contains(pszEvent))
+	if (!this->mapHooks.contains(strEvent))
 		return;
 
-	std::vector<std::function<void()>>& Hooks = this->mapHooks.find(pszEvent)->second;
+	std::vector<std::function<void()>>& Hooks = this->mapHooks.find(strEvent)->second;
 
 	for (std::function<void()> Hook : Hooks)
 		Hook();

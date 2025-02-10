@@ -40,10 +40,10 @@ public:
 	void Loop();
 	void Style();
 	void Render();
-	void AddHook(std::string pszEvent, std::function<void()> fnCallback);
+	void AddHook(std::string strEvent, std::function<void()> fnCallback);
 
 private:
-	void RunHook(std::string pszEvent);
+	void RunHook(std::string strEvent);
 
 	static LRESULT CALLBACK WndProc(HWND hWindow, UINT uMsg, WPARAM wParam, LPARAM lParam);
 };
