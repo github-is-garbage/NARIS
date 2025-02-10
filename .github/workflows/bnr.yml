@@ -41,16 +41,11 @@ jobs:
             - name: Build
               run: cmake --build build --config Release
 
-            - name: Package
-              run: |
-                  mkdir output
-                  copy build\naris.exe output\naris.exe
-
             - name: Create Release
               id: create_release
               uses: softprops/action-gh-release@v2
               with:
-                  files: ./output/naris.exe
+                  files: ./build/naris.exe
                   tag_name: v${{ env.VERSION }}
                   draft: false
                   prerelease: false
