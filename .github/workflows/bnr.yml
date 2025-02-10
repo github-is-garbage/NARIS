@@ -33,7 +33,10 @@ jobs:
               run: cmake --build build --config Release
 
             - name: Delete Old
+              env:
+                  GH_TOKEN: ${{ secrets.PAT }}
               run: |
+                  gh auth login --with-token <<< $GH_TOKEN
                   gh release delete v${{ env.VERSION }} -y || true
                   git tag -d v${{ env.VERSION }} || true
                   git push --delete origin v${{ env.VERSION }} || true
