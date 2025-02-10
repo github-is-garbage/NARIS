@@ -27,17 +27,17 @@ jobs:
                   $version = Select-String -Path CMakeLists.txt -Pattern 'VERSION (\d+\.\d+\.\d+)' | ForEach-Object { $_.Matches.Groups[1].Value }
                   echo "VERSION=$version" >> $env:GITHUB_ENV
 
-            - name: Delete Old
-              run: |
-                  gh release delete v${{ env.VERSION }} -y || true
-                  git tag -d v${{ env.VERSION }} || true
-                  git push --delete origin v${{ env.VERSION }} || true
-
             - name: Configure CMake
               run: cmake -S . -B build -G "MinGW Makefiles"
 
             - name: Build
               run: cmake --build build --config Release
+
+            - name: Delete Old
+              run: |
+                  gh release delete v${{ env.VERSION }} -y || true
+                  git tag -d v${{ env.VERSION }} || true
+                  git push --delete origin v${{ env.VERSION }} || true
 
             - name: Create Release
               id: create_release
