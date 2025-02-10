@@ -42,8 +42,8 @@ public:
 	void Render();
 	void AddHook(std::string pszEvent, std::function<void()> fnCallback);
 
-	static LRESULT CALLBACK WndProc(HWND hWindow, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
 private:
 	void RunHook(std::string pszEvent);
+
+	static LRESULT CALLBACK WndProc(HWND hWindow, UINT uMsg, WPARAM wParam, LPARAM lParam);
 };
