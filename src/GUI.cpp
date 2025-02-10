@@ -48,9 +48,6 @@ bool GUI::Setup()
 	if (!ImGui::CreateContext())
 		return this->Destroy();
 
-	ImGuiIO &IO = ImGui::GetIO();
-	IO.IniFilename = nullptr;
-
 	// More window garbage
 	SetLayeredWindowAttributes(this->hWindow, RGB(0, 0, 0), 0, LWA_COLORKEY);
 
@@ -173,8 +170,8 @@ void GUI::Style()
 
 void GUI::Render()
 {
-	ImGui::SetNextWindowPos(this->WindowSetup.Position, ImGuiCond_Once);
-	ImGui::SetNextWindowSize(this->WindowSetup.Size, ImGuiCond_Once);
+	ImGui::SetNextWindowPos(this->WindowSetup.Position, ImGuiCond_FirstUseEver);
+	ImGui::SetNextWindowSize(this->WindowSetup.Size, ImGuiCond_FirstUseEver);
 
 	// Big blob incoming :hahaball:
 	if (ImGui::Begin("NARIS v" VERSION, &this->bOpen, ImGuiWindowFlags_NoCollapse))
