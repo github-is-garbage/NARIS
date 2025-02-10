@@ -1,0 +1,58 @@
+name: Build n Release
+
+on:
+    push:
+    workflow_dispatch:
+
+jobs:
+    build:
+        runs-on: windows-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Set up CMake
+              uses: lukka/get-cmake@latest
+
+            - name: Install GCC
+              run: |
+                  choco install mingw
+
+            - name: Extract version from CMakeLists.txt
+              id: extract_version
+              run: |
+                  $version = Select-String -Path CMakeLists.txt -Pattern 'VERSION (\d+\.\d+\.\d+)' | ForEach-Object { $_.Matches.Groups[1].Value }
+                  echo "VERSION=$version" >> $env:GITHUB_ENV
+
+            - name: Configure CMake
+              run: cmake -S . -B build -G "MinGW Makefiles"
+
+            - name: Build
+              run: cmake --build build --config Release
+
+            - name: Package
+              run: |
+                  mkdir output
+                  copy build\naris.exe output\naris.exe
+
+            - name: Create Release
+              id: create_release
+              uses: actions/create-release@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  tag_name: v${{ env.VERSION }}
+                  release_name: Release v${{ env.VERSION }}
+                  draft: false
+                  prerelease: false
+
+            - name: Upload Release Asset
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ steps.create_release.outputs.upload_url }}
+                  asset_path: ./output/naris.exe
+                  asset_name: naris.exe
+                  asset_content_type: application/octet-stream
