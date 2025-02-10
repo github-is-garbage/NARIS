@@ -32,15 +32,6 @@ jobs:
             - name: Build
               run: cmake --build build --config Release
 
-            - name: Delete Old
-              env:
-                  GH_TOKEN: ${{ secrets.PAT }}
-              run: |
-                  echo $GH_TOKEN | gh auth login --with-token
-                  gh release delete v${{ env.VERSION }} -y || true
-                  git tag -d v${{ env.VERSION }} || true
-                  git push --delete origin v${{ env.VERSION }} || true
-
             - name: Create Release
               id: create_release
               uses: softprops/action-gh-release@v2
