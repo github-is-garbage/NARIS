@@ -253,7 +253,7 @@ LRESULT CALLBACK GUI::WndProc(HWND hWindow, UINT uMsg, WPARAM wParam, LPARAM lPa
 			return 0;
 
 		case WM_SYSCOMMAND:
-			if ((wParam & 0xFFF0) == SC_KEYMENU)
+			if (LOWORD(wParam) == SC_KEYMENU)
 				return 0;
 
 			break;
