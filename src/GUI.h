@@ -18,7 +18,7 @@ struct WindowSetup_t
 class GUI
 {
 private:
-	const char* pszWindowClass = "NARIS_SEVER";
+	LPCWSTR pwszWindowClass = L"NARIS_SEVER";
 	bool bOpen = true;
 
 	std::map<std::string, std::vector<std::function<void()>>> mapHooks;

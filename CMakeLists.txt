@@ -45,6 +45,7 @@ set_target_properties(
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
 	WIN32_LEAN_AND_MEAN
+	UNICODE=1
 	VERSION="${CMAKE_PROJECT_VERSION}"
 )
 

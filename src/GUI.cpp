@@ -21,7 +21,7 @@ bool GUI::Setup()
 	WindowClass.cbSize = sizeof(WNDCLASSEX);
 	WindowClass.lpfnWndProc = GUI::WndProc;
 	WindowClass.hInstance = this->hInstance;
-	WindowClass.lpszClassName = this->pszWindowClass;
+	WindowClass.lpszClassName = this->pwszWindowClass;
 
 	this->bRegistered = RegisterClassEx(&WindowClass);
 
@@ -30,8 +30,8 @@ bool GUI::Setup()
 
 	this->hWindow = CreateWindowEx(
 		WS_EX_LAYERED,
-		this->pszWindowClass,
-		"NARIS",
+		this->pwszWindowClass,
+		L"NARIS",
 		WS_POPUP,
 		0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN),
 		NULL,
@@ -80,7 +80,7 @@ bool GUI::Destroy()
 		DestroyWindow(this->hWindow);
 
 	if (this->bRegistered)
-		UnregisterClass(this->pszWindowClass, this->hInstance);
+		UnregisterClass(this->pwszWindowClass, this->hInstance);
 
 	return false;
 }
