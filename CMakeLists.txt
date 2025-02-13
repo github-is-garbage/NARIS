@@ -45,7 +45,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 	VERSION="${CMAKE_PROJECT_VERSION}"
 )
 
-target_link_libraries(${PROJECT_NAME} d3d9 d3dx9 dwmapi)
+target_link_libraries(${PROJECT_NAME} d3d9 d3dx9 dwmapi Ws2_32)
 
 # Yay
 install(
