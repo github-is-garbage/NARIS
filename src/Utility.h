@@ -12,5 +12,5 @@ if (Ptr)				\
 class Utility
 {
 public:
-	void CopyImVec2(ImVec2 Source, ImVec2& Destination);
+	void CopyImVec2(const ImVec2& Source, ImVec2& Destination);
 };
