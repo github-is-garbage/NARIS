@@ -7,8 +7,6 @@
 #include <ImGui/backends/imgui_impl_dx9.h>
 #include <ImGui/backends/imgui_impl_win32.h>
 
-#include <iostream>
-
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWindow, UINT uMsg, WPARAM wParam, LPARAM lParam); // Gay
 
 GUI::GUI()
