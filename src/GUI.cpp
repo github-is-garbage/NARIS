@@ -260,53 +260,6 @@ void GUI::UpdateRegion()
 	DeleteObject(hRgnInteraction);
 }
 
-bool GUI::IsPixelTransparent(int x, int y)
-{
-	LPDIRECT3DDEVICE9 D3DDevice = gpGlobals->D3DManager->D3DDevice;
-
-	IDirect3DSurface9* pBackBuffer = nullptr;
-	if (FAILED(D3DDevice->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &pBackBuffer)))
-		return false;
-
-	D3DSURFACE_DESC Desc;
-	pBackBuffer->GetDesc(&Desc);
-
-	IDirect3DSurface9* pSurface = nullptr;
-	if (FAILED(D3DDevice->CreateOffscreenPlainSurface(Desc.Width, Desc.Height, Desc.Format, D3DPOOL_SYSTEMMEM, &pSurface, nullptr)))
-	{
-		pBackBuffer->Release();
-
-		return false;
-	}
-
-	if (FAILED(D3DDevice->GetRenderTargetData(pBackBuffer, pSurface)))
-	{
-		pBackBuffer->Release();
-		pSurface->Release();
-
-		return false;
-	}
-
-	D3DLOCKED_RECT LockedRect;
-	if (FAILED(pSurface->LockRect(&LockedRect, nullptr, D3DLOCK_READONLY)))
-	{
-		pBackBuffer->Release();
-		pSurface->Release();
-
-		return false;
-	}
-
-	BYTE* pPixel = (BYTE*)LockedRect.pBits + (y * LockedRect.Pitch) + (x * 4);
-	BYTE Alpha = pPixel[3];
-
-	pSurface->UnlockRect();
-
-	pBackBuffer->Release();
-	pSurface->Release();
-
-	return Alpha < 128;
-}
-
 LRESULT CALLBACK GUI::WndProc(HWND hWindow, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	if (ImGui_ImplWin32_WndProcHandler(hWindow, uMsg, wParam, lParam))
@@ -314,18 +267,6 @@ LRESULT CALLBACK GUI::WndProc(HWND hWindow, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 	switch (uMsg)
 	{
-		case WM_NCHITTEST:
-			POINT Point;
-			Point.x = LOWORD(lParam);
-			Point.y = HIWORD(lParam);
-
-			ScreenToClient(hWindow, &Point);
-
-			if (gpGlobals->GUIManager->IsPixelTransparent(Point.x, Point.y))
-				return HTTRANSPARENT;
-
-			break;
-
 		case WM_SIZE:
 			return 0;
 
