@@ -6,7 +6,7 @@
 
 #pragma comment(lib, "Ws2_32.lib")
 
-void Clients::CollectClientInformation(SOCKET pSocketClient, ClientSocketInfo_t& SocketInfo)
+void Clients::CollectClientInformation(SOCKET pSocketServer, SOCKET pSocketClient, ClientSocketInfo_t& SocketInfo)
 {
 	strcpy(SocketInfo.szIdentifier, "Unknown");
 	strcpy(SocketInfo.szAddr, "Unknown");
@@ -17,15 +17,25 @@ void Clients::CollectClientInformation(SOCKET pSocketClient, ClientSocketInfo_t&
 	SocketInfo.pszInstallDate = "Unknown";
 	SocketInfo.pszVersion = VERSION;
 
+	// IP Address
 	getpeername(pSocketClient, (sockaddr*)&SocketInfo.ConnectionInfo.ClientAddr, &SocketInfo.ConnectionInfo.ClientAddrSize);
 	inet_ntop(AF_INET, &SocketInfo.ConnectionInfo.ClientAddr.sin_addr, SocketInfo.szAddr, INET_ADDRSTRLEN);
+
+	// Port
+	// SocketInfo.iPort = ntohs(SocketInfo.ConnectionInfo.ClientAddr.sin_port); // This is wrong because ???, So show the port of the socket they connected to instead
+
+	sockaddr_in ServerAddr;
+	int ServerAddrSize = sizeof(ServerAddr);
+
+	getsockname(pSocketServer, (sockaddr*)&ServerAddr, &ServerAddrSize);
+	SocketInfo.iPort = ntohs(ServerAddr.sin_port);
 
 	// TODO: The rest
 }
 
-void ClientHandler(Clients* pClientsFeature, SOCKET pSocketClient, ClientSocketInfo_t SocketInfo)
+void ClientHandler(Clients* pClientsFeature, SOCKET pSocketServer, SOCKET pSocketClient, ClientSocketInfo_t SocketInfo)
 {
-	pClientsFeature->CollectClientInformation(pSocketClient, SocketInfo);
+	pClientsFeature->CollectClientInformation(pSocketServer, pSocketClient, SocketInfo);
 	pClientsFeature->vecClients.emplace_back(SocketInfo);
 
 	closesocket(pSocketClient);
@@ -62,7 +72,7 @@ void ListenHandler(SOCKET pSocket)
 		ClientSocketInfo_t SocketInfo;
 		SocketInfo.ConnectionInfo = ConnectionInfo;
 
-		std::thread(ClientHandler, pClientsFeature, pSocketClient, SocketInfo).detach();
+		std::thread(ClientHandler, pClientsFeature, pSocket, pSocketClient, SocketInfo).detach();
 	}
 }
 

@@ -32,7 +32,7 @@ public:
 	std::vector<ClientSocketInfo_t> vecClients;
 
 public:
-	void CollectClientInformation(SOCKET pSocketClient, ClientSocketInfo_t& SocketInfo);
+	void CollectClientInformation(SOCKET pSocketServer, SOCKET pSocketClient, ClientSocketInfo_t& SocketInfo);
 	bool SetupSocket();
 
 	void Setup();
