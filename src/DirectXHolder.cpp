@@ -36,7 +36,11 @@ void DirectXHolder::Reset()
 
 	HRESULT Result = this->D3DDevice->Reset(&this->PresentParams);
 
-	assert(SUCCEEDED(Result));
+	if (FAILED(Result))
+	{
+		MessageBoxW(NULL, L"Failed to resset DirectX device", L"", MB_ICONERROR | MB_OK);
+		return exit(-1);
+	}
 
 	ImGui_ImplDX9_CreateDeviceObjects();
 }

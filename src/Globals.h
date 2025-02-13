@@ -5,6 +5,8 @@
 #include "GUI.h"
 #include "Utility.h"
 
+#include <stdlib.h>
+
 class Globals
 {
 public:
