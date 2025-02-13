@@ -223,8 +223,8 @@ void GUI::Render()
 			ImGui::EndTabBar();
 		}
 
-		this->WindowSetup.Position = ImGui::GetWindowPos();
-		this->WindowSetup.Size = ImGui::GetWindowSize();
+		gpGlobals->Util->CopyImVec2(ImGui::GetWindowPos(), this->WindowSetup.Position);
+		gpGlobals->Util->CopyImVec2(ImGui::GetWindowSize(), this->WindowSetup.Size);
 
 		ImGui::End();
 	}
