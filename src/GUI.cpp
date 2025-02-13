@@ -31,7 +31,7 @@ bool GUI::Setup()
 		return this->Destroy();
 
 	this->hWindow = CreateWindowEx(
-		WS_EX_LAYERED,
+		WS_EX_TRANSPARENT,
 		this->pwszWindowClass,
 		L"NARIS",
 		WS_POPUP,
@@ -152,6 +152,8 @@ void GUI::Loop()
 
 		if (Result == D3DERR_DEVICELOST && D3DDevice->TestCooperativeLevel() == D3DERR_DEVICENOTRESET)
 			gpGlobals->D3DManager->Reset();
+		else
+			this->UpdateRegion();
 	}
 }
 
@@ -221,6 +223,9 @@ void GUI::Render()
 			ImGui::EndTabBar();
 		}
 
+		this->WindowSetup.Position = ImGui::GetWindowPos();
+		this->WindowSetup.Size = ImGui::GetWindowSize();
+
 		ImGui::End();
 	}
 }
@@ -242,6 +247,19 @@ void GUI::RunHook(std::string strEvent)
 
 	for (std::function<void()>& Hook : Hooks)
 		Hook();
+}
+
+void GUI::UpdateRegion()
+{
+	HRGN hRgnInteraction = CreateRectRgn(
+		this->WindowSetup.Position.x,
+		this->WindowSetup.Position.y,
+		this->WindowSetup.Position.x + this->WindowSetup.Size.x,
+		this->WindowSetup.Position.y + this->WindowSetup.Size.y
+	);
+
+	SetWindowRgn(this->hWindow, hRgnInteraction, TRUE);
+	DeleteObject(hRgnInteraction);
 }
 
 bool GUI::IsPixelTransparent(int x, int y)

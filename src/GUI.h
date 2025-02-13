@@ -41,6 +41,7 @@ public:
 
 private:
 	void RunHook(std::string strEvent);
+	void UpdateRegion();
 
 	bool IsPixelTransparent(int x, int y);
 	static LRESULT CALLBACK WndProc(HWND hWindow, UINT uMsg, WPARAM wParam, LPARAM lParam);
