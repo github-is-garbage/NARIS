@@ -12,10 +12,8 @@ set(DIRECTX_SDK_PATH "C:\\Program Files (x86)\\Microsoft DirectX SDK (June 2010)
 
 file(GLOB_RECURSE SOURCES
 	"src/**.cpp"
-	"src/**/*.cpp"
 
 	"include/**.cpp"
-	"include/**/*.cpp"
 )
 
 file(GLOB_RECURSE HEADERS
@@ -24,8 +22,6 @@ file(GLOB_RECURSE HEADERS
 
 	"include/**.h"
 	"include/**.hpp"
-	"include/**/*.h"
-	"include/**/*.hpp"
 )
 
 include_directories("include")
