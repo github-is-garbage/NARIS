@@ -1,7 +1,5 @@
 #pragma once
 
-#include "DirectXHolder.h"
-
 #include <functional>
 #include <ImGui/imgui.h>
 #include <map>
@@ -24,8 +22,6 @@ private:
 	std::map<std::string, std::vector<std::function<void()>>> mapHooks;
 
 public:
-	DirectXHolder* D3DHolder;
-
 	ATOM bRegistered;
 	HINSTANCE hInstance;
 	HWND hWindow;
@@ -41,7 +37,7 @@ public:
 	void Loop();
 	void Style();
 	void Render();
-	void AddHook(std::string strEvent, std::function<void()> fnCallback);
+	void AddHook(std::string strEvent, std::function<void()> fnCallback); // TODO: RemoveHook
 
 private:
 	void RunHook(std::string strEvent);

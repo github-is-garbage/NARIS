@@ -1,4 +1,6 @@
 #include "GUI.h"
+
+#include "Globals.h"
 #include <uxtheme.h>
 #include <dwmapi.h>
 #include <ImGui/imgui.h>
@@ -87,7 +89,7 @@ bool GUI::Destroy()
 
 void GUI::Loop()
 {
-	LPDIRECT3DDEVICE9& D3DDevice = this->D3DHolder->D3DDevice;
+	LPDIRECT3DDEVICE9& D3DDevice = gpGlobals->D3DManager->D3DDevice;
 
 	ImGui_ImplWin32_Init(this->hWindow);
 	ImGui_ImplDX9_Init(D3DDevice);
@@ -149,7 +151,7 @@ void GUI::Loop()
 		Result = D3DDevice->Present(NULL, NULL, NULL, NULL);
 
 		if (Result == D3DERR_DEVICELOST && D3DDevice->TestCooperativeLevel() == D3DERR_DEVICENOTRESET)
-			this->D3DHolder->Reset();
+			gpGlobals->D3DManager->Reset();
 	}
 }
 
