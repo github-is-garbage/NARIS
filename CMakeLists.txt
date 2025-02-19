@@ -52,7 +52,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 
 find_package(cppzmq)
 
-target_link_libraries(${PROJECT_NAME} d3d9 d3dx9 dwmapi Ws2_32 cppzmq)
+target_link_libraries(${PROJECT_NAME} d3d9 d3dx9 dwmapi cppzmq)
 
 # Yay
 install(
