@@ -24,6 +24,11 @@ file(GLOB_RECURSE HEADERS
 	"include/**.hpp"
 )
 
+list(FILTER SOURCES EXCLUDE REGEX "include/libzmq/.*")
+list(FILTER HEADERS EXCLUDE REGEX "include/libzmq/.*")
+list(FILTER SOURCES EXCLUDE REGEX "include/cppzmq/.*")
+list(FILTER HEADERS EXCLUDE REGEX "include/cppzmq/.*")
+
 include_directories("include")
 
 include_directories("${DIRECTX_SDK_PATH}/Include")
@@ -45,7 +50,9 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 	VERSION="${CMAKE_PROJECT_VERSION}"
 )
 
-target_link_libraries(${PROJECT_NAME} d3d9 d3dx9 dwmapi Ws2_32)
+find_package(cppzmq)
+
+target_link_libraries(${PROJECT_NAME} d3d9 d3dx9 dwmapi Ws2_32 cppzmq)
 
 # Yay
 install(
