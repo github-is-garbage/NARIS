@@ -12,19 +12,14 @@ set(DIRECTX_SDK_PATH "C:\\Program Files (x86)\\Microsoft DirectX SDK (June 2010)
 
 file(GLOB_RECURSE SOURCES
 	"src/**.cpp"
-
-	"include/**.cpp"
 )
 
 file(GLOB_RECURSE HEADERS
 	"src/**.h"
 	"src/**.hpp"
-
-	"include/**.h"
-	"include/**.hpp"
 )
 
-include_directories("include")
+include_directories("src/include")
 include_directories("external/asio/asio/include")
 include_directories("${DIRECTX_SDK_PATH}/Include")
 
