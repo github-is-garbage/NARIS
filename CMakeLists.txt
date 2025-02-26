@@ -25,8 +25,9 @@ file(GLOB_RECURSE HEADERS
 )
 
 include_directories("include")
-
+include_directories("external/asio/asio/include")
 include_directories("${DIRECTX_SDK_PATH}/Include")
+
 link_directories("${DIRECTX_SDK_PATH}/Lib/x64")
 
 # Stuff
@@ -39,13 +40,22 @@ set_target_properties(
 	PREFIX ""
 )
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE
-	WIN32_LEAN_AND_MEAN
-	UNICODE=1
-	VERSION="${CMAKE_PROJECT_VERSION}"
+target_compile_options(${PROJECT_NAME} PRIVATE
+	-Wno-misleading-indentation
+	-Wno-narrowing
 )
 
-target_link_libraries(${PROJECT_NAME} d3d9 d3dx9 dwmapi Ws2_32)
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+	_WIN32_WINNT=0x0A00
+	ASIO_HEADER_ONLY
+	ASIO_STANDALONE
+	UNICODE=1
+	VERSION="${CMAKE_PROJECT_VERSION}"
+	WIN32_LEAN_AND_MEAN
+	WINVER=0x0A00
+)
+
+target_link_libraries(${PROJECT_NAME} d3d9 d3dx9 dwmapi ws2_32 mswsock)
 
 # Yay
 install(
